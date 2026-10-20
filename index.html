@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Our First Year</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700&family=IM+Fell+English:ital@0;1&family=Pinyon+Script&family=UnifrakturCook:wght@700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Tulip drawing, reused everywhere with <use href="#tulip"> -->
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <symbol id="tulip" viewBox="0 0 60 120">
+      <path d="M30 56 V118" stroke="#4f7a5f" stroke-width="3" fill="none"/>
+      <path d="M30 118 C10 100 12 82 22 72 C24 90 28 102 30 118Z" fill="#4f7a5f"/>
+      <path d="M30 118 C50 100 48 82 38 72 C36 90 32 102 30 118Z" fill="#3d6350"/>
+      <path d="M30 10 C10 12 6 40 20 58 C24 40 26 24 30 10Z" fill="#ff7eb6"/>
+      <path d="M30 10 C50 12 54 40 40 58 C36 40 34 24 30 10Z" fill="#ff7eb6"/>
+      <path d="M30 6 C16 14 12 42 21 58 C27 64 33 64 39 58 C48 42 44 14 30 6Z" fill="#ffa3cc"/>
+    </symbol>
+
+    <!-- gold corner flourish, placed in all four corners of every page by script.js -->
+    <symbol id="corner" viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round">
+      <path d="M4 96 V30 C4 14 14 4 30 4 H96"/>
+      <path d="M14 96 V34 C14 22 22 14 34 14 H96" opacity=".45"/>
+      <path d="M30 30 C20 36 18 46 22 56 C26 50 30 48 34 48"/>
+      <path d="M30 30 C36 22 46 20 56 22 C50 26 48 30 48 34"/>
+      <path d="M30 30 C44 30 52 40 50 52 C46 46 38 44 30 46 C34 40 34 34 30 30Z" fill="currentColor" stroke="none" opacity=".75"/>
+      <circle cx="30" cy="30" r="3" fill="currentColor" stroke="none"/>
+    </symbol>
+
+    <!-- wax seal with an embossed tulip -->
+    <symbol id="seal" viewBox="0 0 100 100">
+      <defs>
+        <radialGradient id="wax" cx="38%" cy="32%" r="75%">
+          <stop offset="0" stop-color="#e45a86"/>
+          <stop offset=".6" stop-color="#a8284f"/>
+          <stop offset="1" stop-color="#651230"/>
+        </radialGradient>
+      </defs>
+      <path d="M50 4 C62 2 74 8 82 16 C94 24 98 38 96 50 C98 64 92 76 82 84 C72 94 60 98 50 96 C38 98 26 94 18 84 C8 76 2 62 4 50 C2 36 8 24 18 16 C26 8 38 2 50 4Z" fill="url(#wax)"/>
+      <circle cx="50" cy="50" r="33" fill="none" stroke="#ffb3cf" stroke-opacity=".45" stroke-width="2"/>
+      <path d="M50 26 C39 33 37 50 43 60 C47 65 53 65 57 60 C63 50 61 33 50 26Z" fill="#8f1d41" stroke="#ffb3cf" stroke-opacity=".55" stroke-width="1.5"/>
+      <path d="M50 64 V78 M50 72 C43 70 40 66 40 62 M50 72 C57 70 60 66 60 62" fill="none" stroke="#8f1d41" stroke-width="3" stroke-linecap="round"/>
+    </symbol>
+    <!-- cherry blossom petal, tulip petal, five-petal blossom, and a blossoming branch -->
+    <symbol id="sakura" viewBox="0 0 20 24">
+      <defs><linearGradient id="sg" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0" stop-color="#fff2f7"/><stop offset=".55" stop-color="#ffc9dc"/><stop offset="1" stop-color="#ff9fc0"/>
+      </linearGradient></defs>
+      <path d="M10 6 C8 2 4 1 2 4 C-1 9 3 18 10 24 C17 18 21 9 18 4 C16 1 12 2 10 6Z" fill="url(#sg)"/>
+      <path d="M10 9 V19" stroke="#ff8fb5" stroke-width=".5" opacity=".5" fill="none"/>
+    </symbol>
+    <symbol id="tpetal" viewBox="0 0 20 24">
+      <defs><linearGradient id="tg" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0" stop-color="#ffa3cc"/><stop offset="1" stop-color="#d94a86"/>
+      </linearGradient></defs>
+      <path d="M10 1 C17 6 19 15 10 23 C1 15 3 6 10 1Z" fill="url(#tg)"/>
+      <path d="M10 4 V20" stroke="#ffc3dc" stroke-width=".5" opacity=".5" fill="none"/>
+    </symbol>
+    <symbol id="blossom" viewBox="0 0 40 40">
+      <g fill="#ffc2d8" stroke="#ff8fb5" stroke-width=".7"><path transform="rotate(0 20 20)" d="M20 20 C12 16 10 6 15 3 C17 2 19 4 20 6 C21 4 23 2 25 3 C30 6 28 16 20 20Z"/><path transform="rotate(72 20 20)" d="M20 20 C12 16 10 6 15 3 C17 2 19 4 20 6 C21 4 23 2 25 3 C30 6 28 16 20 20Z"/><path transform="rotate(144 20 20)" d="M20 20 C12 16 10 6 15 3 C17 2 19 4 20 6 C21 4 23 2 25 3 C30 6 28 16 20 20Z"/><path transform="rotate(216 20 20)" d="M20 20 C12 16 10 6 15 3 C17 2 19 4 20 6 C21 4 23 2 25 3 C30 6 28 16 20 20Z"/><path transform="rotate(288 20 20)" d="M20 20 C12 16 10 6 15 3 C17 2 19 4 20 6 C21 4 23 2 25 3 C30 6 28 16 20 20Z"/></g>
+      <circle cx="20" cy="20" r="3" fill="#d94a86"/>
+    </symbol>
+    <symbol id="branch-art" viewBox="0 0 520 300" overflow="visible">
+      <g fill="none" stroke="#5a3a2b" stroke-linecap="round">
+        <path d="M520 18 C440 36 385 66 305 78 C232 90 188 128 118 152" stroke-width="7"/>
+        <path d="M430 40 C424 86 404 108 384 138" stroke-width="4"/>
+        <path d="M305 78 C296 42 276 22 254 6" stroke-width="4"/>
+        <path d="M212 106 C204 148 176 178 150 206" stroke-width="4"/>
+        <path d="M362 58 C352 30 342 14 326 0" stroke-width="3"/>
+      </g>
+      <g fill="#ffb3cf"><circle cx="400" cy="100" r="5"/><circle cx="268" cy="30" r="4"/><circle cx="170" cy="170" r="4.5"/></g>
+    <use href="#blossom" x="95" y="129" width="46" height="46" transform="rotate(10 118 152)"/>
+    <use href="#blossom" x="129" y="185" width="42" height="42" transform="rotate(-15 150 206)"/>
+    <use href="#blossom" x="364" y="118" width="40" height="40" transform="rotate(20 384 138)"/>
+    <use href="#blossom" x="234" y="-14" width="40" height="40" transform="rotate(-8 254 6)"/>
+    <use href="#blossom" x="308" y="-18" width="36" height="36" transform="rotate(25 326 0)"/>
+    <use href="#blossom" x="283" y="56" width="44" height="44" transform="rotate(5 305 78)"/>
+    <use href="#blossom" x="410" y="20" width="38" height="38" transform="rotate(-20 429 39)"/>
+    <use href="#blossom" x="192" y="86" width="40" height="40" transform="rotate(15 212 106)"/>
+    <use href="#blossom" x="452" y="10" width="34" height="34" transform="rotate(0 469 27)"/>
+    <use href="#blossom" x="238" y="150" width="30" height="30" transform="rotate(30 253 165)"/>
+    </symbol>
+    <!-- shaded tulip used in the vase -->
+    <symbol id="tulip3d" viewBox="0 0 60 120">
+      <defs>
+        <linearGradient id="t3-stem" x1="0" x2="1"><stop offset="0" stop-color="#3d6350"/><stop offset=".45" stop-color="#7fb596"/><stop offset="1" stop-color="#3a5d4a"/></linearGradient>
+        <linearGradient id="t3-leaf" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#78b08f"/><stop offset="1" stop-color="#2f5442"/></linearGradient>
+        <linearGradient id="t3-pl" x1="0" x2="1"><stop offset="0" stop-color="#c63a78"/><stop offset=".6" stop-color="#ff8dbd"/><stop offset="1" stop-color="#ff9ec8"/></linearGradient>
+        <linearGradient id="t3-pr" x1="1" x2="0"><stop offset="0" stop-color="#d94a86"/><stop offset=".6" stop-color="#ff7eb6"/><stop offset="1" stop-color="#ff9ec8"/></linearGradient>
+        <radialGradient id="t3-pc" cx=".38" cy=".3" r=".8"><stop offset="0" stop-color="#ffd6e8"/><stop offset=".45" stop-color="#ffa3cc"/><stop offset="1" stop-color="#e0528f"/></radialGradient>
+      </defs>
+      <path d="M30 56 V118" stroke="#4d8467" stroke-width="3.6" fill="none" stroke-linecap="round"/>
+      <path d="M29 58 V116" stroke="#8cc4a4" stroke-opacity=".7" stroke-width="1" fill="none" stroke-linecap="round"/>
+      <path d="M30 118 C10 100 12 82 22 72 C24 90 28 102 30 118Z" fill="url(#t3-leaf)"/>
+      <path d="M30 118 C50 100 48 82 38 72 C36 90 32 102 30 118Z" fill="url(#t3-leaf)"/>
+      <path d="M30 10 C10 12 6 40 20 58 C24 40 26 24 30 10Z" fill="url(#t3-pl)"/>
+      <path d="M30 10 C50 12 54 40 40 58 C36 40 34 24 30 10Z" fill="url(#t3-pr)"/>
+      <path d="M30 6 C16 14 12 42 21 58 C27 64 33 64 39 58 C48 42 44 14 30 6Z" fill="url(#t3-pc)"/>
+      <path d="M30 8 C22 18 20 40 24 56" stroke="#fff" stroke-opacity=".45" stroke-width="1.4" fill="none" stroke-linecap="round"/>
+      <path d="M21 58 C27 64 33 64 39 58" stroke="#a82f68" stroke-opacity=".5" stroke-width="1.2" fill="none"/>
+    </symbol>
+  </svg>
+
+  <div class="mat-wrap" aria-hidden="true"><div class="mat"></div><i class="fold"></i></div>
+  <svg class="branch tr" aria-hidden="true"><use href="#branch-art"/></svg>
+  <svg class="branch bl" aria-hidden="true"><use href="#branch-art"/></svg>
+  <div class="litter" id="litter" aria-hidden="true"></div>
+  <div class="petals back" id="petals-back" aria-hidden="true"></div>
+  <div class="props" aria-hidden="true">
+
+    <!-- paper lamp (andon) with a warm pool of light -->
+    <div class="prop lamp">
+      <i class="light"></i>
+      <svg viewBox="0 0 120 176">
+        <defs>
+          <radialGradient id="lp-front" cx=".5" cy=".45" r=".75"><stop offset="0" stop-color="#fff4d6"/><stop offset=".55" stop-color="#ffe0a0"/><stop offset="1" stop-color="#ffc070"/></radialGradient>
+          <linearGradient id="lp-side" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#f3bd6c"/><stop offset="1" stop-color="#d98f3c"/></linearGradient>
+          <linearGradient id="lp-wood" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#4f3022"/><stop offset="1" stop-color="#2f1b12"/></linearGradient>
+          <linearGradient id="lp-shade" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#000" stop-opacity=".4"/><stop offset=".22" stop-color="#000" stop-opacity="0"/><stop offset=".85" stop-color="#000" stop-opacity="0"/><stop offset="1" stop-color="#000" stop-opacity=".25"/></linearGradient>
+          <filter id="lp-blur"><feGaussianBlur stdDeviation="3"/></filter>
+        </defs>
+        <ellipse cx="58" cy="164" rx="62" ry="12" fill="rgba(255,190,110,.3)" filter="url(#lp-blur)"/>
+        <ellipse cx="68" cy="160" rx="50" ry="8" fill="rgba(0,0,0,.6)" filter="url(#lp-blur)"/>
+        <!-- base -->
+        <polygon points="14,152 78,152 98,144 34,144" fill="#6a412c"/>
+        <polygon points="78,152 98,144 98,156 78,164" fill="#1f110b"/>
+        <rect x="14" y="152" width="64" height="12" fill="url(#lp-wood)"/>
+        <!-- paper panels -->
+        <rect x="22" y="40" width="48" height="110" fill="url(#lp-front)"/>
+        <polygon points="70,40 90,32 90,142 70,150" fill="url(#lp-side)"/>
+        <rect x="22" y="40" width="48" height="110" fill="url(#lp-shade)"/>
+        <use href="#blossom" x="30" y="82" width="22" height="22" opacity=".5"/>
+        <!-- wooden frame -->
+        <g stroke="#34200f" fill="none" stroke-linejoin="round">
+          <rect x="22" y="40" width="48" height="110" stroke-width="3.5"/>
+          <polygon points="70,40 90,32 90,142 70,150" stroke-width="3"/>
+          <path d="M38 40V150M54 40V150M22 76H70M22 112H70" stroke-width="2.4"/>
+          <path d="M80 36V146M70 76L90 68M70 112L90 104" stroke-width="2.2"/>
+        </g>
+        <!-- roof -->
+        <polygon points="14,32 78,32 98,24 34,24" fill="#6a412c"/>
+        <polygon points="78,32 98,24 98,32 78,40" fill="#24130c"/>
+        <rect x="14" y="32" width="64" height="8" fill="url(#lp-wood)"/>
+        <polygon points="38,13 54,13 74,5 58,5" fill="#6a412c"/>
+        <polygon points="64,24 84,16 74,5 54,13" fill="#2a170e"/>
+        <polygon points="28,24 64,24 54,13 38,13" fill="#4a2c1d"/>
+        <circle cx="62" cy="3" r="3" fill="#7a4d34"/>
+        <path d="M14 32H78L98 24" stroke="#c98d5e" stroke-opacity=".5" stroke-width=".8" fill="none"/>
+      </svg>
+    </div>
+
+    <!-- tea bowl with steam -->
+    <div class="prop chawan">
+      <svg class="wisp w1" viewBox="0 0 14 40" aria-hidden="true"><path d="M7 38 C3 30 11 26 7 18 C4 12 9 8 7 2"/></svg>
+      <svg class="wisp w2" viewBox="0 0 14 40" aria-hidden="true"><path d="M7 38 C3 30 11 26 7 18 C4 12 9 8 7 2"/></svg>
+      <svg class="wisp w3" viewBox="0 0 14 40" aria-hidden="true"><path d="M7 38 C3 30 11 26 7 18 C4 12 9 8 7 2"/></svg>
+      <svg viewBox="0 0 90 110">
+        <ellipse cx="45" cy="94" rx="34" ry="8" fill="rgba(0,0,0,.45)"/>
+        <path d="M12 62 C12 90 26 98 45 98 C64 98 78 90 78 62Z" fill="#e8dcc8" stroke="#bda98a"/>
+        <ellipse cx="45" cy="62" rx="33" ry="11" fill="#f3ead8" stroke="#bda98a"/>
+        <ellipse cx="45" cy="63" rx="27" ry="8" fill="#7da05a"/>
+        <ellipse cx="40" cy="61" rx="10" ry="2.5" fill="#a3c07a" opacity=".6"/>
+        <path d="M20 76 C30 83 60 83 70 76" stroke="#ff9fc0" stroke-width="2" fill="none" opacity=".75"/>
+      </svg>
+    </div>
+
+    <!-- two paper cranes -->
+    <div class="prop cranes">
+      <svg viewBox="0 0 170 90">
+        <g transform="translate(6 18) rotate(-12 40 30)">
+          <path d="M40 30 L8 8 L30 34Z" fill="#ffb3cf"/><path d="M40 30 L72 8 L50 34Z" fill="#ff8fb5"/>
+          <path d="M20 34 L40 30 L60 34 L40 48Z" fill="#ffd3e4"/><path d="M58 33 L74 20 L72 27 L62 36Z" fill="#ffd3e4"/>
+          <path d="M22 35 L6 46 L26 40Z" fill="#ffc0d6"/>
+        </g>
+        <g transform="translate(92 30) rotate(14 40 30) scale(.8)">
+          <path d="M40 30 L8 8 L30 34Z" fill="#f4e6d2"/><path d="M40 30 L72 8 L50 34Z" fill="#e3cfae"/>
+          <path d="M20 34 L40 30 L60 34 L40 48Z" fill="#fbf3e6"/><path d="M58 33 L74 20 L72 27 L62 36Z" fill="#fbf3e6"/>
+          <path d="M22 35 L6 46 L26 40Z" fill="#ecdcc2"/>
+        </g>
+      </svg>
+    </div>
+
+    <!-- vase with two tulips -->
+    <div class="prop vase">
+      <svg viewBox="0 0 100 180">
+        <defs>
+          <linearGradient id="vase-body" x1="0" y1="0" x2="1" y2="0">
+            <stop offset="0" stop-color="#b9b19c"/><stop offset=".2" stop-color="#f7f2e7"/><stop offset=".38" stop-color="#ffffff"/><stop offset=".72" stop-color="#e0d8c6"/><stop offset="1" stop-color="#9c937e"/>
+          </linearGradient>
+          <filter id="vase-blur"><feGaussianBlur stdDeviation="2.2"/></filter>
+        </defs>
+        <ellipse cx="64" cy="170" rx="34" ry="6" fill="rgba(0,0,0,.55)" filter="url(#vase-blur)"/>
+        <ellipse cx="50" cy="96" rx="13" ry="4.4" fill="#e6dec9" stroke="#b7ae98" stroke-width=".8"/>
+        <ellipse cx="50" cy="96.4" rx="10" ry="3" fill="#2b241a"/>
+        <use href="#tulip3d" x="21" y="-6" width="52" height="104" transform="rotate(-6 48 98)"/>
+        <use href="#tulip3d" x="42" y="10" width="44" height="88" transform="rotate(10 64 98)"/>
+        <path d="M37 96 A13 4.4 0 0 0 63 96 C63 108 80 114 80 138 C80 158 72 168 66 170 L34 170 C28 168 20 158 20 138 C20 114 37 108 37 96Z" fill="url(#vase-body)" stroke="#aaa28c" stroke-width=".8"/>
+        <path d="M37 96 A13 4.4 0 0 0 63 96" fill="none" stroke="#fff" stroke-opacity=".7" stroke-width="1.2"/>
+        <path d="M22 128 C38 140 62 140 78 128" stroke="#4f78ae" stroke-width="2.2" fill="none"/>
+        <path d="M21 134 C38 146 62 146 79 134" stroke="#4f78ae" stroke-width="1" fill="none" opacity=".7"/>
+        <path d="M32 150 C38 143 44 152 50 146 C56 140 62 150 68 146" stroke="#4f78ae" stroke-width="1.5" fill="none"/>
+        <path d="M30 118 C26 130 26 146 30 158" stroke="#fff" stroke-opacity=".85" stroke-width="3" stroke-linecap="round" fill="none"/>
+        <ellipse cx="50" cy="170" rx="17" ry="2.6" fill="#8d846f" opacity=".6"/>
+      </svg>
+    </div>
+
+    <!-- love letter sealed with wax -->
+    <div class="prop letter">
+      <svg viewBox="0 0 160 110">
+        <g transform="rotate(-8 80 55)">
+          <rect x="9" y="15" width="148" height="92" rx="4" fill="rgba(0,0,0,.45)"/>
+          <rect x="6" y="10" width="148" height="92" rx="4" fill="#efe1c9" stroke="#cdb994"/>
+          <path d="M6 12 L80 62 L154 12" fill="#e6d3b4" stroke="#cdb994"/>
+          <path d="M6 100 L62 56 M154 100 L98 56" stroke="#cdb994" fill="none"/>
+          <use href="#seal" x="62" y="44" width="36" height="36"/>
+          <text x="80" y="95" text-anchor="middle" font-family="Pinyon Script, cursive" font-size="14" fill="#8a4a5e">to my love</text>
+        </g>
+      </svg>
+    </div>
+
+  </div>
+
+  <main class="stage">
+    <div class="tilt" id="tilt">
+    <div class="book closed" id="book">
+      <div class="floor" aria-hidden="true"></div>
+
+      <section class="leaf">
+        <div class="face front cover" data-audio="audio/cover.mp3">
+          <svg class="tulip t1"><use href="#tulip"/></svg>
+          <svg class="tulip t2"><use href="#tulip"/></svg>
+          <svg class="tulip t3"><use href="#tulip"/></svg>
+          <svg class="seal" aria-hidden="true"><use href="#seal"/></svg>
+          <h1>Happy Anniversary to us</h1>
+          <p>I love you, my future wife.</p>
+          <p class="small">This is our first anniversary, and there will be so many more. Even when we can't be together, I'm with you.</p>
+          <span class="hint">Tap to open</span>
+        </div>
+        <div class="face back page" data-audio="audio/intro.mp3">
+          <svg class="tulip corner"><use href="#tulip"/></svg>
+          <h2>Our story</h2>
+          <p>Twelve months, twelve chapters. Every page is something we got through together.</p>
+        </div>
+      </section>
+
+      <section class="leaf">
+        <div class="face front page chapter" data-audio="audio/chapter1.mp3">
+          <svg class="tulip watermark"><use href="#tulip"/></svg>
+          <span class="month">Month One</span>
+          <h2>Chapter one</h2>
+          <img class="photo" src="images/chapter1.jpg" alt="">
+          <p>Write what happened this month, the challenge you faced, and how you got through it together.</p>
+        </div>
+        <div class="face back page chapter" data-audio="audio/chapter2.mp3">
+          <svg class="tulip watermark"><use href="#tulip"/></svg>
+          <span class="month">Month Two</span>
+          <h2>Chapter two</h2>
+          <img class="photo" src="images/chapter2.jpg" alt="">
+          <p>Write what happened this month, the challenge you faced, and how you got through it together.</p>
+        </div>
+      </section>
+
+      <section class="leaf">
+        <div class="face front page chapter" data-audio="audio/chapter3.mp3">
+          <svg class="tulip watermark"><use href="#tulip"/></svg>
+          <span class="month">Month Three</span>
+          <h2>Chapter three</h2>
+          <img class="photo" src="images/chapter3.jpg" alt="">
+          <p>Write what happened this month, the challenge you faced, and how you got through it together.</p>
+        </div>
+        <div class="face back page chapter" data-audio="audio/chapter4.mp3">
+          <svg class="tulip watermark"><use href="#tulip"/></svg>
+          <span class="month">Month Four</span>
+          <h2>Chapter four</h2>
+          <img class="photo" src="images/chapter4.jpg" alt="">
+          <p>Write what happened this month, the challenge you faced, and how you got through it together.</p>
+        </div>
+      </section>
+
+      <section class="leaf">
+        <div class="face front page chapter" data-audio="audio/chapter5.mp3">
+          <svg class="tulip watermark"><use href="#tulip"/></svg>
+          <span class="month">Month Five</span>
+          <h2>Chapter five</h2>
+          <img class="photo" src="images/chapter5.jpg" alt="">
+          <p>Write what happened this month, the challenge you faced, and how you got through it together.</p>
+        </div>
+        <div class="face back page chapter" data-audio="audio/chapter6.mp3">
+          <svg class="tulip watermark"><use href="#tulip"/></svg>
+          <span class="month">Month Six</span>
+          <h2>Chapter six</h2>
+          <img class="photo" src="images/chapter6.jpg" alt="">
+          <p>Write what happened this month, the challenge you faced, and how you got through it together.</p>
+        </div>
+      </section>
+
+      <section class="leaf">
+        <div class="face front page chapter" data-audio="audio/chapter7.mp3">
+          <svg class="tulip watermark"><use href="#tulip"/></svg>
+          <span class="month">Month Seven</span>
+          <h2>Chapter seven</h2>
+          <img class="photo" src="images/chapter7.jpg" alt="">
+          <p>Write what happened this month, the challenge you faced, and how you got through it together.</p>
+        </div>
+        <div class="face back page chapter" data-audio="audio/chapter8.mp3">
+          <svg class="tulip watermark"><use href="#tulip"/></svg>
+          <span class="month">Month Eight</span>
+          <h2>Chapter eight</h2>
+          <img class="photo" src="images/chapter8.jpg" alt="">
+          <p>Write what happened this month, the challenge you faced, and how you got through it together.</p>
+        </div>
+      </section>
+
+      <section class="leaf">
+        <div class="face front page chapter" data-audio="audio/chapter9.mp3">
+          <svg class="tulip watermark"><use href="#tulip"/></svg>
+          <span class="month">Month Nine</span>
+          <h2>Chapter nine</h2>
+          <img class="photo" src="images/chapter9.jpg" alt="">
+          <p>Write what happened this month, the challenge you faced, and how you got through it together.</p>
+        </div>
+        <div class="face back page chapter" data-audio="audio/chapter10.mp3">
+          <svg class="tulip watermark"><use href="#tulip"/></svg>
+          <span class="month">Month Ten</span>
+          <h2>Chapter ten</h2>
+          <img class="photo" src="images/chapter10.jpg" alt="">
+          <p>Write what happened this month, the challenge you faced, and how you got through it together.</p>
+        </div>
+      </section>
+
+      <section class="leaf">
+        <div class="face front page chapter" data-audio="audio/chapter11.mp3">
+          <svg class="tulip watermark"><use href="#tulip"/></svg>
+          <span class="month">Month Eleven</span>
+          <h2>Chapter eleven</h2>
+          <img class="photo" src="images/chapter11.jpg" alt="">
+          <p>Write what happened this month, the challenge you faced, and how you got through it together.</p>
+        </div>
+        <div class="face back page chapter" data-audio="audio/chapter12.mp3">
+          <svg class="tulip watermark"><use href="#tulip"/></svg>
+          <span class="month">Month Twelve</span>
+          <h2>Chapter twelve</h2>
+          <img class="photo" src="images/chapter12.jpg" alt="">
+          <p>Write what happened this month, the challenge you faced, and how you got through it together.</p>
+        </div>
+      </section>
+
+      <section class="leaf">
+        <div class="face front page video-page">
+          <h2>For you</h2>
+          <!-- Replace video/anniversary.mp4 with your Autograph export -->
+          <video controls playsinline preload="metadata" src="video/anniversary.mp4"></video>
+        </div>
+        <div class="face back page" data-audio="audio/final.mp3">
+          <h2>Where we are now</h2>
+          <p>One year in. Write what you want her to carry with her into year two.</p>
+        </div>
+      </section>
+
+      <section class="leaf">
+        <div class="face front page" data-audio="audio/closing.mp3">
+          <svg class="tulip t1"><use href="#tulip"/></svg>
+          <svg class="tulip t2"><use href="#tulip"/></svg>
+          <svg class="tulip t3"><use href="#tulip"/></svg>
+          <h2>Here's to year two</h2>
+          <p>And every year after. I love you.</p>
+        </div>
+        <div class="face back cover">
+          <svg class="tulip t2"><use href="#tulip"/></svg>
+          <p class="script">Forever yours, jm</p>
+        </div>
+      </section>
+
+    </div>
+    </div>
+
+    <nav class="controls">
+      <button id="prev" aria-label="Previous page">&#8592;</button>
+      <button id="next" aria-label="Next page">&#8594;</button>
+      <button id="sound" aria-label="Mute music" aria-pressed="false">
+        <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M4 9v6h4l5 4V5L8 9H4z"/>
+          <path class="waves" d="M16 9a4 4 0 0 1 0 6M18.5 6.5a8 8 0 0 1 0 11"/>
+          <path class="slash" d="M17 9l5 6M22 9l-5 6"/>
+        </svg>
+      </button>
+    </nav>
+  </main>
+
+  <div class="petals front" id="petals-front" aria-hidden="true"></div>
+  <div class="fireflies" id="fireflies" aria-hidden="true"></div>
+
+  <script src="script.js"></script>
+</body>
+</html>

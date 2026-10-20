@@ -1,0 +1,725 @@
+:root {
+  --ink: #0d0a0c;
+  --paper: #17101a;
+  --pink: #ff7eb6;
+  --blush: #ffd3e6;
+  --rose: #c2417a;
+  --w: min(44vw, 380px);   /* width of one page */
+  --h: calc(var(--w) * 1.4);
+}
+
+* { box-sizing: border-box; margin: 0; }
+
+html, body { height: 100%; }
+
+body {
+  background: radial-gradient(ellipse at 50% 40%, #241320 0%, var(--ink) 70%);
+  color: var(--blush);
+  font-family: "Cormorant Garamond", Georgia, serif;
+  overflow: hidden;
+}
+
+.stage {
+  height: 100%;
+  display: grid;
+  place-items: center;
+  align-content: center;
+  gap: 2rem;
+  perspective: 2200px;
+}
+
+/* ---------- Book ---------- */
+.book {
+  position: relative;
+  width: calc(var(--w) * 2);
+  height: var(--h);
+  transform-style: preserve-3d;
+  transition: transform 0.9s ease;
+}
+.book.closed { transform: translateX(calc(var(--w) * -0.5)); }
+.book.end    { transform: translateX(calc(var(--w) * 0.5)); }
+
+.leaf {
+  position: absolute;
+  left: 50%;
+  top: 0;
+  width: var(--w);
+  height: 100%;
+  transform-origin: left center;
+  transform-style: preserve-3d;
+  transition: transform 1s cubic-bezier(0.645, 0.045, 0.355, 1);
+}
+.leaf.flipped { transform: rotateY(-180deg); }
+
+.face {
+  position: absolute;
+  inset: 0;
+  backface-visibility: hidden;
+  overflow: hidden;
+  padding: 12% 10%;
+  border-radius: 2px 10px 10px 2px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.6);
+}
+.face.back {
+  transform: rotateY(180deg);
+  border-radius: 10px 2px 2px 10px;
+}
+.front { cursor: pointer; }
+.back  { cursor: pointer; }
+
+/* ---------- Pages ---------- */
+.page {
+  background:
+    linear-gradient(rgba(10, 4, 8, 0.72), rgba(10, 4, 8, 0.72)),
+    url("grain.png") center / cover no-repeat,
+    linear-gradient(135deg, #1d1220, var(--paper));
+  border: 1px solid rgba(255, 126, 182, 0.25);
+  box-shadow: inset 0 0 70px rgba(0, 0, 0, 0.55), 0 10px 40px rgba(0, 0, 0, 0.6);
+}
+
+/* a single quiet frame line, inset from the edge — the one ornamental
+   device every page shares, instead of a different flourish per page */
+.page::before {
+  content: "";
+  position: absolute;
+  inset: 7%;
+  border: 1px solid rgba(255, 126, 182, 0.22);
+  pointer-events: none;
+}
+
+.page h2 {
+  font-family: "Pinyon Script", cursive;
+  font-weight: 400;
+  font-size: clamp(1.8rem, 4vw, 2.6rem);
+  color: var(--pink);
+  margin-bottom: 0.3rem;
+}
+
+/* month label — only meaningful because the chapters really are a
+   sequence (month 1 through 12), so a small numeral earns its place */
+.page .month {
+  display: block;
+  font-family: "Cormorant Garamond", Georgia, serif;
+  font-style: italic;
+  font-size: 0.85rem;
+  letter-spacing: 0.08em;
+  color: var(--rose);
+  opacity: 0.85;
+  margin-bottom: 0.9rem;
+}
+
+.page p {
+  font-size: clamp(1rem, 1.8vw, 1.25rem);
+  line-height: 1.6;
+}
+
+/* raised initial on the first word of each chapter (class added by script.js) */
+.initial::first-letter {
+  font-family: "Pinyon Script", cursive;
+  font-size: 1.9em;
+  line-height: 1;
+  color: var(--pink);
+  text-shadow: 0 0 16px rgba(255, 126, 182, 0.35);
+}
+
+/* ---------- Covers ---------- */
+.cover {
+  /* layers: darkening overlay, optional cover photo, base colour.
+     No paper grain here — the cover reads as the book's outer jacket,
+     a different material from the inner pages.
+     If images/cover.jpg is missing, the photo layer is simply skipped. */
+  background:
+    linear-gradient(rgba(0, 0, 0, 0.5), rgba(10, 0, 8, 0.82)),
+    url("images/cover.jpg") center / cover,
+    #0a0508;
+  border: 2px solid var(--pink);
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 0.9rem;
+}
+.cover h1 {
+  font-family: "Pinyon Script", cursive;
+  font-weight: 400;
+  font-size: clamp(2rem, 4.6vw, 3.2rem);
+  line-height: 1.1;
+  color: var(--pink);
+  text-shadow: 0 0 24px rgba(255, 126, 182, 0.45);
+}
+.cover p { font-size: clamp(1.05rem, 2vw, 1.4rem); font-style: italic; }
+.cover .small { font-size: clamp(0.85rem, 1.5vw, 1.05rem); font-style: normal; opacity: 0.8; }
+.cover .script { font-family: "Pinyon Script", cursive; font-size: 2rem; color: var(--pink); font-style: normal; }
+.hint {
+  position: absolute;
+  bottom: 5%;
+  left: 0; right: 0;
+  font-size: 0.85rem;
+  opacity: 0.6;
+  animation: pulse 2.4s ease-in-out infinite;
+}
+@keyframes pulse { 50% { opacity: 0.15; } }
+
+/* ---------- Tulips ---------- */
+.tulip { position: absolute; width: 18%; height: auto; aspect-ratio: 1 / 2; }
+.t1 { left: 6%;  bottom: 0; transform: rotate(-8deg); }
+.t2 { left: 41%; bottom: 0; width: 22%; }
+.t3 { right: 6%; bottom: 0; transform: rotate(8deg); }
+.corner { right: 6%; bottom: 0; }
+
+/* faint watermark tulip, bottom corner only — page furniture, not a
+   second focal point, so it sits behind the text and never on the
+   same side as the chapter's photo */
+.page .tulip.watermark {
+  width: 34%;
+  opacity: 0.08;
+  right: -4%;
+  bottom: -2%;
+  left: auto;
+  transform: none;
+  fill: var(--pink);
+}
+
+/* ---------- Video page ---------- */
+.video-page video {
+  width: 100%;
+  border-radius: 8px;
+  border: 1px solid var(--rose);
+  background: #000;
+}
+
+/* ---------- Controls ---------- */
+.controls { display: flex; gap: 1rem; }
+.controls button {
+  width: 3rem; height: 3rem;
+  border-radius: 50%;
+  border: 1px solid var(--pink);
+  background: transparent;
+  color: var(--pink);
+  font-size: 1.3rem;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+.controls button:hover,
+.controls button:focus-visible { background: var(--pink); color: var(--ink); outline: none; }
+
+
+@media (prefers-reduced-motion: reduce) {
+  .petals { display: none; }
+  .leaf, .book { transition-duration: 0.01s; }
+  .hint { animation: none; }
+}
+
+@media (max-width: 600px) {
+  :root { --w: 46vw; }
+  .face { padding: 10% 7%; }
+}
+
+/* ---------- Spine shading (makes the pages look bound) ---------- */
+.face::after { content: ""; position: absolute; inset: 0; pointer-events: none; }
+.front::after { background: linear-gradient(to right, rgba(0, 0, 0, 0.5), transparent 14%); }
+.back::after  { background: linear-gradient(to left,  rgba(0, 0, 0, 0.5), transparent 14%); }
+
+/* ---------- Chapter photos (optional) ---------- */
+.photo {
+  display: block;
+  width: 100%;
+  height: 34%;
+  object-fit: cover;
+  margin-bottom: 1rem;
+  border-radius: 6px;
+  border: 1px solid rgba(255, 126, 182, 0.35);
+}
+
+/* ---------- Word-by-word fade ---------- */
+.w {
+  display: inline-block;
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+.reading .w {
+  opacity: 1;
+  transform: none;
+  transition-delay: calc(var(--i) * var(--stagger, 110ms));
+}
+@media (prefers-reduced-motion: reduce) {
+  .w { opacity: 1; transform: none; filter: none; transition: none; }
+}
+
+/* ---------- Round 2 design details ---------- */
+
+/* Your custom background: save it as images/background.jpg.
+   If the file is missing, nothing is drawn and the dark gradient stays. */
+body.has-bg::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  background: url("images/background.jpg") center / cover no-repeat;
+  opacity: 0.45;
+}
+
+/* covers get a double frame, like a stamped book jacket */
+.cover::before {
+  content: "";
+  position: absolute;
+  inset: 4%;
+  border: 1px solid rgba(255, 126, 182, 0.5);
+  outline: 1px solid rgba(255, 126, 182, 0.25);
+  outline-offset: -7px;
+  pointer-events: none;
+}
+
+/* a short fading rule under each chapter heading */
+.chapter h2::after {
+  content: "";
+  display: block;
+  width: 3.5rem;
+  height: 1px;
+  margin-top: 0.4rem;
+  background: linear-gradient(to right, var(--pink), transparent);
+}
+
+/* =====================================================================
+   Medieval romantic fantasy theme
+   (later rules override the earlier ones on purpose)
+   ===================================================================== */
+:root {
+  --gold: #d4b06a;
+  --gold-dim: rgba(212, 176, 106, 0.45);
+  --parchment: #f2dfc8;
+}
+
+body { color: var(--parchment); font-family: "IM Fell English", Georgia, serif; }
+
+/* type: Cinzel Decorative for titles, IM Fell English for the story,
+   UnifrakturCook (blackletter) for the raised first letter */
+.page h2 {
+  font-family: "Cinzel Decorative", Georgia, serif;
+  font-weight: 700;
+  font-size: clamp(1.15rem, 2.7vw, 1.75rem);
+  line-height: 1.25;
+  letter-spacing: 0.02em;
+}
+.page p { font-size: clamp(1.05rem, 1.9vw, 1.3rem); line-height: 1.55; }
+.page .month { color: var(--gold); letter-spacing: 0.12em; }
+.cover h1 {
+  font-family: "Cinzel Decorative", Georgia, serif;
+  font-weight: 700;
+  font-size: clamp(1.35rem, 3.3vw, 2.2rem);
+  line-height: 1.3;
+  letter-spacing: 0.03em;
+}
+.initial::first-letter {
+  font-family: "UnifrakturCook", Georgia, serif;
+  font-size: 2.3em;
+  color: var(--pink);
+  text-shadow: 0 0 14px rgba(255, 126, 182, 0.4), 0 1px 0 var(--gold);
+}
+
+/* warm candlelit vignette on the pages */
+.page {
+  background:
+    radial-gradient(ellipse at 50% 45%, rgba(0, 0, 0, 0) 40%, rgba(0, 0, 0, 0.5) 100%),
+    linear-gradient(rgba(14, 5, 10, 0.74), rgba(14, 5, 10, 0.74)),
+    url("grain.png") center / cover no-repeat,
+    linear-gradient(135deg, #1d1220, var(--paper));
+  box-shadow:
+    inset 0 0 90px rgba(120, 40, 60, 0.25),
+    inset 0 0 70px rgba(0, 0, 0, 0.55),
+    0 10px 40px rgba(0, 0, 0, 0.6);
+}
+
+/* gold double frame on pages and covers */
+.page::before  { border-color: var(--gold-dim); outline: 1px solid rgba(212, 176, 106, 0.22); outline-offset: -6px; }
+.cover::before { border-color: var(--gold-dim); outline-color: rgba(212, 176, 106, 0.25); }
+.chapter h2::after { background: linear-gradient(to right, var(--gold), transparent); }
+
+/* chapter photos look like framed miniatures */
+.photo {
+  border-color: var(--gold-dim);
+  box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.5), 0 0 0 4px var(--gold-dim);
+}
+
+/* gold corner flourishes (added to every page by script.js) */
+.orn {
+  position: absolute;
+  width: 14%;
+  aspect-ratio: 1;
+  color: var(--gold);
+  opacity: 0.8;
+  pointer-events: none;
+}
+.orn.tl { top: 6.4%;    left: 6.4%; }
+.orn.tr { top: 6.4%;    right: 6.4%;  transform: scaleX(-1); }
+.orn.bl { bottom: 6.4%; left: 6.4%;   transform: scaleY(-1); }
+.orn.br { bottom: 6.4%; right: 6.4%;  transform: scale(-1); }
+
+/* wax seal on the front cover */
+.seal {
+  position: absolute;
+  top: 8%;
+  left: 50%;
+  width: 18%;
+  aspect-ratio: 1;
+  transform: translateX(-50%) rotate(-6deg);
+  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.6));
+}
+
+/* =====================================================================
+   Page turn + 3D book
+   The turn itself is animated from script.js (Web Animations) along a
+   smooth curve; this section holds the lighting and the book's body.
+   ===================================================================== */
+.leaf { transition: none; will-change: transform; }
+
+/* darkening overlay that script.js animates while a page turns */
+.shade { position: absolute; inset: 0; z-index: 3; opacity: 0; pointer-events: none; }
+.front .shade { background: linear-gradient(to right, rgba(20, 6, 12, 0.85), rgba(20, 6, 12, 0) 75%); }
+.back  .shade { background: linear-gradient(to left,  rgba(20, 6, 12, 0.85), rgba(20, 6, 12, 0) 75%); }
+
+/* the book sits tilted toward you, and follows the pointer a little */
+.stage { perspective: 2600px; perspective-origin: 50% 35%; }
+.tilt {
+  width: calc(var(--w) * 2);
+  height: var(--h);
+  transform-style: preserve-3d;
+  transform: rotateX(12deg);              /* script.js nudges this with the pointer */
+  transition: transform 0.35s ease-out;
+}
+.book { transform: none; }
+.book.closed { transform: translateX(calc(var(--w) * -0.5)); }
+.book.end    { transform: translateX(calc(var(--w) *  0.5)); }
+
+/* stacks of page edges under the turning leaves */
+.book::before, .book::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  width: var(--w);
+  height: 100%;
+  background: linear-gradient(135deg, #1d1220, #14090f);
+  transform: translateZ(-3px);
+  transition: opacity 0.6s;
+  pointer-events: none;
+}
+.book::before {
+  left: 50%;
+  border-radius: 2px 10px 10px 2px;
+  box-shadow: 2px 2px 0 #3b2431, 4px 4px 0 #24131c, 6px 6px 0 #3b2431,
+              8px 8px 0 #24131c, 10px 10px 0 #3b2431, 16px 26px 34px rgba(0, 0, 0, 0.65);
+}
+.book::after {
+  left: calc(50% - var(--w));
+  border-radius: 10px 2px 2px 10px;
+  box-shadow: -2px 2px 0 #3b2431, -4px 4px 0 #24131c, -6px 6px 0 #3b2431,
+              -8px 8px 0 #24131c, -10px 10px 0 #3b2431, -16px 26px 34px rgba(0, 0, 0, 0.65);
+}
+.book.closed::after, .book.end::before { opacity: 0; }
+
+/* hard-cover thickness */
+.front.cover, .back.cover {
+  box-shadow: 3px 3px 0 #2a0f1c, 6px 6px 0 #170811, 0 10px 40px rgba(0, 0, 0, 0.6);
+}
+
+/* soft shadow on the table */
+.floor {
+  position: absolute;
+  left: 4%;
+  right: 4%;
+  bottom: -34px;
+  height: 46px;
+  background: radial-gradient(ellipse at center, rgba(0, 0, 0, 0.7), transparent 70%);
+  filter: blur(8px);
+  transform: translateZ(-60px);
+  transition: left 0.9s ease, right 0.9s ease;
+  pointer-events: none;
+}
+.book.closed .floor { left: 50%; right: 0; }
+.book.end .floor    { left: 0;   right: 50%; }
+
+@media (prefers-reduced-motion: reduce) {
+  .shade { display: none; }
+}
+
+.book::before { background-image: linear-gradient(to right, rgba(0, 0, 0, 0.55), transparent 18%), linear-gradient(135deg, #1d1220, #14090f); }
+.book::after  { background-image: linear-gradient(to left,  rgba(0, 0, 0, 0.55), transparent 18%), linear-gradient(135deg, #1d1220, #14090f); }
+
+/* ---------- Music mute button ---------- */
+.controls button { display: grid; place-items: center; }
+#sound .slash { opacity: 0; }
+#sound.muted .waves { opacity: 0; }
+#sound.muted .slash { opacity: 1; }
+#sound[hidden] { display: none; }
+
+/* =====================================================================
+   Japanese table scene
+   dark wood table, lamp light, a patterned cloth under the book,
+   cherry blossom branches, and petals falling and resting
+   ===================================================================== */
+body {
+  background:
+    radial-gradient(ellipse at 50% 46%, rgba(255, 170, 100, 0.16), transparent 55%),
+    radial-gradient(ellipse at 50% 50%, transparent 38%, rgba(0, 0, 0, 0.7) 100%),
+    url("wood.jpg") 0 0 / 800px 300px,
+    repeating-linear-gradient(180deg, rgba(0, 0, 0, 0) 0 148px, rgba(0, 0, 0, 0.5) 148px 151px),
+    #1d120e;
+}
+
+.stage { position: relative; z-index: 3; }
+
+
+/* blossoming branches reaching in from two corners */
+.branch {
+  position: fixed;
+  z-index: 2;
+  pointer-events: none;
+  overflow: visible;
+  filter: drop-shadow(0 8px 10px rgba(0, 0, 0, 0.5));
+}
+.branch.tr { top: -6px; right: -10px; width: min(54vw, 660px); aspect-ratio: 520 / 300; }
+.branch.bl { bottom: -6px; left: -10px; width: min(38vw, 470px); aspect-ratio: 520 / 300; transform: scale(-1, -1); }
+
+/* petals that already landed on the table */
+.litter { position: fixed; inset: 0; z-index: 0; pointer-events: none; }
+.lp {
+  position: absolute;
+  transform: translate(-50%, -50%) rotate(var(--r));
+  filter: drop-shadow(1px 2px 2px rgba(0, 0, 0, 0.55));
+  opacity: 0.9;
+}
+
+/* ---------- Falling petals: cherry blossom and tulip ---------- */
+.petals { position: fixed; inset: 0; pointer-events: none; overflow: hidden; }
+.petals.back  { z-index: 1; }
+.petals.front { z-index: 4; }
+
+.fp { position: absolute; top: 0; }
+.fp svg { display: block; width: 100%; height: 100%; }
+.petals.front .fp svg { filter: blur(1.6px); opacity: 0.85; }
+
+@media (max-width: 600px) {
+  .branch.tr { width: 60vw; }
+  .branch.bl { width: 44vw; }
+}
+
+.controls { position: relative; z-index: 2; }
+
+/* =====================================================================
+   Cloth, props, lamp light and fireflies
+   ===================================================================== */
+
+/* the cloth lies flat, slightly crooked, like it was just put down */
+.mat-wrap {
+  position: fixed;
+  left: 50%;
+  top: calc(50% - 2.5rem + 6px);
+  width: min(calc(var(--w) * 2 + 180px), 100vw);
+  height: calc(var(--h) + 110px);
+  transform: translate(-50%, -50%) rotate(-1.2deg);
+  z-index: 0;
+  pointer-events: none;
+  /* tight contact shadow so it sits on the wood, plus a soft ambient one */
+  filter: drop-shadow(0 6px 8px rgba(0, 0, 0, 0.6));
+}
+.mat {
+  position: absolute;
+  inset: 0;
+  clip-path: polygon(
+    calc(0% + 14px) 0%,
+    6% calc(0% + 2.9px),
+    10% calc(0% + 0.8px),
+    14% calc(0% + -1.7px),
+    18% calc(0% + -3.4px),
+    22% calc(0% + -3.1px),
+    26% calc(0% + -1.2px),
+    30% calc(0% + 1.4px),
+    34% calc(0% + 3.2px),
+    38% calc(0% + 3.3px),
+    42% calc(0% + 1.5px),
+    46% calc(0% + -1.1px),
+    50% calc(0% + -3.1px),
+    54% calc(0% + -3.4px),
+    58% calc(0% + -1.8px),
+    62% calc(0% + 0.7px),
+    66% calc(0% + 2.9px),
+    70% calc(0% + 3.5px),
+    74% calc(0% + 2.1px),
+    78% calc(0% + -0.4px),
+    82% calc(0% + -2.7px),
+    86% calc(0% + -3.5px),
+    90% calc(0% + -2.4px),
+    94% calc(0% + 0.0px),
+    calc(100% - 14px) 0%,
+    100% calc(0% + 14px),
+    calc(100% + 2.1px) 8%,
+    calc(100% + 3.1px) 13%,
+    calc(100% + 0.5px) 18%,
+    calc(100% + -2.7px) 23%,
+    calc(100% + -2.7px) 28%,
+    calc(100% + 0.5px) 33%,
+    calc(100% + 3.1px) 38%,
+    calc(100% + 2.0px) 43%,
+    calc(100% + -1.5px) 48%,
+    calc(100% + -3.2px) 53%,
+    calc(100% + -1.2px) 58%,
+    calc(100% + 2.3px) 63%,
+    calc(100% + 3.0px) 68%,
+    calc(100% + 0.2px) 73%,
+    calc(100% + -2.8px) 78%,
+    calc(100% + -2.5px) 83%,
+    100% calc(100% - 70px),
+    calc(100% - 90px) 100%,
+    86% calc(100% + -2.1px),
+    82% calc(100% + -3.6px),
+    78% calc(100% + -3.5px),
+    74% calc(100% + -1.9px),
+    70% calc(100% + 0.6px),
+    66% calc(100% + 2.8px),
+    62% calc(100% + 3.8px),
+    58% calc(100% + 3.1px),
+    54% calc(100% + 1.0px),
+    50% calc(100% + -1.6px),
+    46% calc(100% + -3.4px),
+    42% calc(100% + -3.7px),
+    38% calc(100% + -2.4px),
+    34% calc(100% + 0.0px),
+    30% calc(100% + 2.4px),
+    26% calc(100% + 3.7px),
+    22% calc(100% + 3.4px),
+    18% calc(100% + 1.5px),
+    14% calc(100% + -1.0px),
+    10% calc(100% + -3.1px),
+    calc(0% + 14px) 100%,
+    0% calc(100% - 14px),
+    calc(0% + -1.1px) 92%,
+    calc(0% + 2.2px) 87%,
+    calc(0% + 3.3px) 82%,
+    calc(0% + 1.1px) 77%,
+    calc(0% + -2.3px) 72%,
+    calc(0% + -3.3px) 67%,
+    calc(0% + -1.0px) 62%,
+    calc(0% + 2.3px) 57%,
+    calc(0% + 3.3px) 52%,
+    calc(0% + 1.0px) 47%,
+    calc(0% + -2.3px) 42%,
+    calc(0% + -3.3px) 37%,
+    calc(0% + -1.0px) 32%,
+    calc(0% + 2.3px) 27%,
+    calc(0% + 3.3px) 22%,
+    calc(0% + 1.0px) 17%,
+    calc(0% + -2.4px) 12%,
+    0% calc(0% + 14px)
+  );
+  background:
+    linear-gradient(118deg, transparent 0 18%, rgba(255,255,255,.035) 22%, transparent 28%, rgba(0,0,0,.22) 46%, transparent 54%, rgba(255,255,255,.03) 72%, transparent 80%),
+    linear-gradient(64deg, transparent 0 30%, rgba(0,0,0,.18) 40%, transparent 48%, rgba(255,255,255,.025) 62%, transparent 70%),
+    radial-gradient(ellipse at 50% 50%, transparent 50%, rgba(0,0,0,.45) 100%),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='20' viewBox='0 0 40 20'%3E%3Cg fill='%23140a12' stroke='%23d4b06a' stroke-opacity='0.24' stroke-width='0.8'%3E%3Ccircle cx='0' cy='10' r='10'/%3E%3Ccircle cx='0' cy='10' r='7.5'/%3E%3Ccircle cx='0' cy='10' r='5'/%3E%3Ccircle cx='0' cy='10' r='2.5'/%3E%3Ccircle cx='40' cy='10' r='10'/%3E%3Ccircle cx='40' cy='10' r='7.5'/%3E%3Ccircle cx='40' cy='10' r='5'/%3E%3Ccircle cx='40' cy='10' r='2.5'/%3E%3Ccircle cx='20' cy='0' r='10'/%3E%3Ccircle cx='20' cy='0' r='7.5'/%3E%3Ccircle cx='20' cy='0' r='5'/%3E%3Ccircle cx='20' cy='0' r='2.5'/%3E%3Ccircle cx='20' cy='20' r='10'/%3E%3Ccircle cx='20' cy='20' r='7.5'/%3E%3Ccircle cx='20' cy='20' r='5'/%3E%3Ccircle cx='20' cy='20' r='2.5'/%3E%3C/g%3E%3C/svg%3E") 0 0 / 64px 32px,
+    #140a12;
+}
+/* hand-stitched gold line */
+.mat::after {
+  content: "";
+  position: absolute;
+  inset: 18px;
+  border: 1px dashed rgba(212, 176, 106, 0.45);
+  border-radius: 10px;
+}
+/* fringe on the two short ends */
+.mat-wrap::before, .mat-wrap::after {
+  content: "";
+  position: absolute;
+  top: 6%;
+  bottom: 6%;
+  width: 14px;
+  background: repeating-linear-gradient(180deg, #c9a45c 0 2px, transparent 2px 6px);
+  opacity: 0.7;
+}
+.mat-wrap::before { left: -12px; }
+.mat-wrap::after  { right: -12px; }
+/* folded-over corner showing the back of the cloth */
+.fold {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  width: 90px;
+  height: 87.2px;
+  background: linear-gradient(145deg, #5a3347 0%, #3a1f2d 55%, #24121b 100%);
+  clip-path: polygon(0 87.2px, 90px 17.2px, 22.2px 0);
+}
+
+/* ---------- Props on the table ---------- */
+.props { position: fixed; inset: 0; z-index: 1; pointer-events: none; }
+.prop { position: absolute; }
+.prop svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  overflow: visible;
+  filter: drop-shadow(2px 5px 4px rgba(0, 0, 0, 0.55));
+}
+.lamp    { left: 3.5vw; top: 15vh;    width: clamp(80px, 7.5vw, 130px); }
+.chawan  { left: 7vw;   top: 52vh;    width: clamp(60px, 5.5vw, 95px); }
+.cranes  { right: 5vw;  top: 40vh;    width: clamp(90px, 9vw, 150px); }
+.vase    { right: 3vw;  bottom: 24vh; width: clamp(60px, 5.5vw, 95px); }
+.letter  { right: 5vw;  bottom: 7vh;  width: clamp(100px, 10vw, 170px); }
+
+/* warm light thrown by the lamp, flickering gently */
+.light {
+  position: absolute;
+  left: 50%;
+  top: 45%;
+  width: 60vmax;
+  height: 60vmax;
+  will-change: opacity;
+  transform: translate(-50%, -50%);
+  background: radial-gradient(circle, rgba(255, 190, 110, 0.5) 0, rgba(255, 150, 80, 0.2) 26%, transparent 66%);
+  animation: flicker 3.4s ease-in-out infinite alternate;
+  pointer-events: none;
+}
+@keyframes flicker { from { opacity: 0.82; } 40% { opacity: 1; } to { opacity: 0.9; } }
+
+/* steam wisps are separate elements so the browser can animate them on the graphics card */
+.prop .wisp {
+  position: absolute;
+  top: -2%;
+  width: 14%;
+  height: auto;
+  filter: none;
+  fill: none;
+  stroke: rgba(255, 255, 255, 0.5);
+  stroke-width: 2;
+  stroke-linecap: round;
+  animation: steam 3.6s ease-in-out infinite;
+}
+.wisp.w1 { left: 36%; }
+.wisp.w2 { left: 48%; animation-delay: 1.2s; }
+.wisp.w3 { left: 60%; animation-delay: 2.4s; }
+@keyframes steam {
+  0%   { opacity: 0;   transform: translateY(6px); }
+  40%  { opacity: 0.6; }
+  100% { opacity: 0;   transform: translateY(-14px); }
+}
+
+/* ---------- Fireflies ---------- */
+.fireflies { position: fixed; inset: 0; z-index: 5; pointer-events: none; overflow: hidden; }
+.ff {
+  position: absolute;
+  border-radius: 50%;
+  background: radial-gradient(circle, #fff6c8 0, rgba(255, 214, 120, 0.9) 40%, transparent 70%);
+  box-shadow: 0 0 10px 3px rgba(255, 200, 100, 0.5);
+}
+
+@media (max-width: 1100px) { .props { display: none; } }
+@media (prefers-reduced-motion: reduce) {
+  .fireflies { display: none; }
+  .light, .wisp { animation: none; }
+}
+
+/* ---------- Lite mode: switched on automatically when the device struggles ---------- */
+.lite .petals.front, .lite .fireflies, .lite .wisp { display: none; }
+.lite .fp:nth-child(even) { display: none; }
+.lite .prop svg, .lite .branch, .lite .mat-wrap { filter: none; }
+.lite .light { animation: none; }
