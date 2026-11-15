@@ -8,6 +8,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700&family=IM+Fell+English:ital@0;1&family=Pinyon+Script&family=UnifrakturCook:wght@700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="fx.css">
 </head>
 <body>
 
@@ -109,13 +110,15 @@
   <div class="mat-wrap" aria-hidden="true"><div class="mat"></div><i class="fold"></i></div>
   <svg class="branch tr" aria-hidden="true"><use href="#branch-art"/></svg>
   <svg class="branch bl" aria-hidden="true"><use href="#branch-art"/></svg>
+  <div class="tod tod-day" aria-hidden="true"></div>
+  <div class="tod tod-night" aria-hidden="true"></div>
   <div class="litter" id="litter" aria-hidden="true"></div>
   <div class="petals back" id="petals-back" aria-hidden="true"></div>
-  <div class="props" aria-hidden="true">
+  <div class="props">
 
     <!-- paper lamp (andon) with a warm pool of light -->
-    <div class="prop lamp">
-      <i class="light"></i>
+    <div class="prop lamp" role="switch" aria-checked="false" tabindex="0" aria-label="Lamp: switch between day and night" data-tip="Day &amp; night">
+      <div class="light-wrap" aria-hidden="true"><i class="light"></i></div>
       <svg viewBox="0 0 120 176">
         <defs>
           <radialGradient id="lp-front" cx=".5" cy=".45" r=".75"><stop offset="0" stop-color="#fff4d6"/><stop offset=".55" stop-color="#ffe0a0"/><stop offset="1" stop-color="#ffc070"/></radialGradient>
@@ -146,16 +149,18 @@
         <polygon points="14,32 78,32 98,24 34,24" fill="#6a412c"/>
         <polygon points="78,32 98,24 98,32 78,40" fill="#24130c"/>
         <rect x="14" y="32" width="64" height="8" fill="url(#lp-wood)"/>
-        <polygon points="38,13 54,13 74,5 58,5" fill="#6a412c"/>
-        <polygon points="64,24 84,16 74,5 54,13" fill="#2a170e"/>
-        <polygon points="28,24 64,24 54,13 38,13" fill="#4a2c1d"/>
-        <circle cx="62" cy="3" r="3" fill="#7a4d34"/>
+        <!-- roof cap: a small box sitting centred on the slab's top face -->
+        <polygon points="35,30 67,30 62,17.8 46,17.8" fill="#4a2c1d"/>
+        <polygon points="67,30 77,26 66,16.2 62,17.8" fill="#2a170e"/>
+        <polygon points="46,17.8 62,17.8 66,16.2 50,16.2" fill="#6a412c"/>
+        <path d="M56 17 V13.5" stroke="#4a2c1d" stroke-width="2"/>
+        <circle cx="56" cy="12" r="2.8" fill="#7a4d34"/>
         <path d="M14 32H78L98 24" stroke="#c98d5e" stroke-opacity=".5" stroke-width=".8" fill="none"/>
       </svg>
     </div>
 
     <!-- tea bowl with steam -->
-    <div class="prop chawan">
+    <div class="prop chawan" aria-hidden="true">
       <svg class="wisp w1" viewBox="0 0 14 40" aria-hidden="true"><path d="M7 38 C3 30 11 26 7 18 C4 12 9 8 7 2"/></svg>
       <svg class="wisp w2" viewBox="0 0 14 40" aria-hidden="true"><path d="M7 38 C3 30 11 26 7 18 C4 12 9 8 7 2"/></svg>
       <svg class="wisp w3" viewBox="0 0 14 40" aria-hidden="true"><path d="M7 38 C3 30 11 26 7 18 C4 12 9 8 7 2"/></svg>
@@ -172,21 +177,21 @@
     <!-- two paper cranes -->
     <div class="prop cranes">
       <svg viewBox="0 0 170 90">
-        <g transform="translate(6 18) rotate(-12 40 30)">
+        <g class="crane" role="button" tabindex="0" aria-label="Pink paper crane: let it fly" data-tip="Let it fly"><rect class="hit" x="4" y="14" width="84" height="54" fill="transparent"/><g class="hop"><g transform="translate(6 18) rotate(-12 40 30)">
           <path d="M40 30 L8 8 L30 34Z" fill="#ffb3cf"/><path d="M40 30 L72 8 L50 34Z" fill="#ff8fb5"/>
           <path d="M20 34 L40 30 L60 34 L40 48Z" fill="#ffd3e4"/><path d="M58 33 L74 20 L72 27 L62 36Z" fill="#ffd3e4"/>
           <path d="M22 35 L6 46 L26 40Z" fill="#ffc0d6"/>
-        </g>
-        <g transform="translate(92 30) rotate(14 40 30) scale(.8)">
+        </g></g></g>
+        <g class="crane" role="button" tabindex="0" aria-label="Cream paper crane: let it fly" data-tip="Let it fly"><rect class="hit" x="92" y="28" width="66" height="48" fill="transparent"/><g class="hop"><g transform="translate(92 30) rotate(14 40 30) scale(.8)">
           <path d="M40 30 L8 8 L30 34Z" fill="#f4e6d2"/><path d="M40 30 L72 8 L50 34Z" fill="#e3cfae"/>
           <path d="M20 34 L40 30 L60 34 L40 48Z" fill="#fbf3e6"/><path d="M58 33 L74 20 L72 27 L62 36Z" fill="#fbf3e6"/>
           <path d="M22 35 L6 46 L26 40Z" fill="#ecdcc2"/>
-        </g>
+        </g></g></g>
       </svg>
     </div>
 
     <!-- vase with two tulips -->
-    <div class="prop vase">
+    <div class="prop vase" role="button" tabindex="0" aria-label="Tulips: read the note" aria-expanded="false" data-tip="A note from the tulips">
       <svg viewBox="0 0 100 180">
         <defs>
           <linearGradient id="vase-body" x1="0" y1="0" x2="1" y2="0">
@@ -197,8 +202,10 @@
         <ellipse cx="64" cy="170" rx="34" ry="6" fill="rgba(0,0,0,.55)" filter="url(#vase-blur)"/>
         <ellipse cx="50" cy="96" rx="13" ry="4.4" fill="#e6dec9" stroke="#b7ae98" stroke-width=".8"/>
         <ellipse cx="50" cy="96.4" rx="10" ry="3" fill="#2b241a"/>
-        <use href="#tulip3d" x="21" y="-6" width="52" height="104" transform="rotate(-6 48 98)"/>
-        <use href="#tulip3d" x="42" y="10" width="44" height="88" transform="rotate(10 64 98)"/>
+        <g class="t-sway">
+          <use href="#tulip3d" x="21" y="-6" width="52" height="104" transform="rotate(-6 48 98)"/>
+          <use href="#tulip3d" x="42" y="10" width="44" height="88" transform="rotate(10 64 98)"/>
+        </g>
         <path d="M37 96 A13 4.4 0 0 0 63 96 C63 108 80 114 80 138 C80 158 72 168 66 170 L34 170 C28 168 20 158 20 138 C20 114 37 108 37 96Z" fill="url(#vase-body)" stroke="#aaa28c" stroke-width=".8"/>
         <path d="M37 96 A13 4.4 0 0 0 63 96" fill="none" stroke="#fff" stroke-opacity=".7" stroke-width="1.2"/>
         <path d="M22 128 C38 140 62 140 78 128" stroke="#4f78ae" stroke-width="2.2" fill="none"/>
@@ -210,14 +217,20 @@
     </div>
 
     <!-- love letter sealed with wax -->
-    <div class="prop letter">
+    <div class="prop letter" role="button" tabindex="0" aria-label="Love letter: open it" aria-expanded="false" data-tip="Open the letter">
       <svg viewBox="0 0 160 110">
         <g transform="rotate(-8 80 55)">
           <rect x="9" y="15" width="148" height="92" rx="4" fill="rgba(0,0,0,.45)"/>
           <rect x="6" y="10" width="148" height="92" rx="4" fill="#efe1c9" stroke="#cdb994"/>
-          <path d="M6 12 L80 62 L154 12" fill="#e6d3b4" stroke="#cdb994"/>
-          <path d="M6 100 L62 56 M154 100 L98 56" stroke="#cdb994" fill="none"/>
-          <use href="#seal" x="62" y="44" width="36" height="36"/>
+          <path class="env-flap" d="M6 12 L80 62 L154 12Z" fill="#e6d3b4" stroke="#cdb994"/>
+          <rect class="env-in" x="6" y="10" width="148" height="92" rx="4" fill="#bfa27a" opacity="0"/>
+          <g class="env-card" style="opacity:0">
+            <rect x="16" y="16" width="128" height="72" rx="2" fill="#fffaf0" stroke="#e5d3b0"/>
+            <path d="M28 33H132M28 43H132M28 53H112M28 63H124M28 73H96" stroke="#dccaa6" stroke-width="2" stroke-linecap="round"/>
+          </g>
+          <path class="env-pocket" d="M6 102 V34 L80 72 L154 34 V102Z" fill="#efe1c9" stroke="#cdb994" opacity="0"/>
+          <path class="env-folds" d="M6 100 L62 56 M154 100 L98 56" stroke="#cdb994" fill="none"/>
+          <g class="env-seal"><use href="#seal" x="62" y="44" width="36" height="36"/></g>
           <text x="80" y="95" text-anchor="middle" font-family="Pinyon Script, cursive" font-size="14" fill="#8a4a5e">to my love</text>
         </g>
       </svg>
@@ -230,150 +243,119 @@
     <div class="book closed" id="book">
       <div class="floor" aria-hidden="true"></div>
 
+      <!-- Each <section> is one sheet of paper: its front is a right-hand page, its back a left-hand page.
+           Spreads you see: Our story | Ch 1 ... Ch 2 | Ch 3 ... Ch 4 | Ch 5 ... Video | Letter ... Where we are now | Year two -->
       <section class="leaf">
-        <div class="face front cover" data-audio="audio/cover.mp3">
-          <svg class="tulip t1"><use href="#tulip"/></svg>
-          <svg class="tulip t2"><use href="#tulip"/></svg>
-          <svg class="tulip t3"><use href="#tulip"/></svg>
-          <svg class="seal" aria-hidden="true"><use href="#seal"/></svg>
-          <h1>Happy Anniversary to us</h1>
-          <p>I love you, my future wife.</p>
-          <p class="small">This is our first anniversary, and there will be so many more. Even when we can't be together, I'm with you.</p>
+        <div class="face front cover art" data-audio="audio/cover.mp3" aria-label="Book cover: Happy Anniversary to us">
           <span class="hint">Tap to open</span>
         </div>
         <div class="face back page" data-audio="audio/intro.mp3">
           <svg class="tulip corner"><use href="#tulip"/></svg>
           <h2>Our story</h2>
-          <p>Twelve months, twelve chapters. Every page is something we got through together.</p>
+          <p> Hi baby, Happy Anniversary to us, I made this Anniversary book to record our journey.
+            Five chapters of our first year. Every page is something we got through together.
+            </p>
         </div>
       </section>
 
       <section class="leaf">
         <div class="face front page chapter" data-audio="audio/chapter1.mp3">
           <svg class="tulip watermark"><use href="#tulip"/></svg>
-          <span class="month">Month One</span>
+          <span class="month">Months 1&ndash;3</span>
           <h2>Chapter one</h2>
           <img class="photo" src="images/chapter1.jpg" alt="">
-          <p>Write what happened this month, the challenge you faced, and how you got through it together.</p>
+          <p> Chapter 1- Month 1-3, This month is one of our most happiest memory for me, We became a official couple, The day you became my 
+            official Girldfriend is the moment make me so happy, because the girl i want is officially mine, we date a lot, literal na every week lagi tayong nag da-date,
+            On you're birthday, we go to kamay ni jesus, it definitely was a memory to remember, kahit alam muna medyo kinulang tayo sa budget hehe
+            but still we got to enjoy you're birthday baby. nakpag celebrate din tayo ng christmas and valentines and also i gave you the tulips flower.
+
+          </p>
         </div>
         <div class="face back page chapter" data-audio="audio/chapter2.mp3">
           <svg class="tulip watermark"><use href="#tulip"/></svg>
-          <span class="month">Month Two</span>
+          <span class="month">Months 4&ndash;6</span>
           <h2>Chapter two</h2>
           <img class="photo" src="images/chapter2.jpg" alt="">
-          <p>Write what happened this month, the challenge you faced, and how you got through it together.</p>
+          <p> Chapter 2- Month 4-6, this chapter we really have many memories hehe..., we got to have our 1st night date and 1st date together sa ano... ano nga yun? haha
+            yung maliit na ferris wheel, sa peryahan, na may horror train na di naman nakakatakot HAHAHA, literal na meh nag sayang ng pera eh,
+            saka nakuha natin yung cute na stuff toy yey! saka napakilala din kita kay tatay.
+            
+          </p>
         </div>
       </section>
 
       <section class="leaf">
         <div class="face front page chapter" data-audio="audio/chapter3.mp3">
           <svg class="tulip watermark"><use href="#tulip"/></svg>
-          <span class="month">Month Three</span>
+          <span class="month">Months 7&ndash;8</span>
           <h2>Chapter three</h2>
           <img class="photo" src="images/chapter3.jpg" alt="">
-          <p>Write what happened this month, the challenge you faced, and how you got through it together.</p>
+          <p>Chapter 3- Month 7-8. Here we officially Graduated we reach our goal to graduate together, we did not give up our dream, and now we both trying to reach it,
+            at pinakilala mo na ako kay tito, tho ang tagal kunang di pa uli nakaka punta dyan sainyo. I gave you a flower bouquet gawa nga lang sa paper hehe, and I really want to see you put 
+            the promise ring i gave you tho.
+
+          </p>
         </div>
         <div class="face back page chapter" data-audio="audio/chapter4.mp3">
           <svg class="tulip watermark"><use href="#tulip"/></svg>
-          <span class="month">Month Four</span>
+          <span class="month">Months 9&ndash;10</span>
           <h2>Chapter four</h2>
           <img class="photo" src="images/chapter4.jpg" alt="">
-          <p>Write what happened this month, the challenge you faced, and how you got through it together.</p>
+          <p>Chapter 4- Month 9-10 This chapter we both face our biggest challenges, so many happenings,you're preapering sa iyong upcomming exam, and that take a toll on you
+          lagi kang puyat, stress pagod and my incedent pang nangyari, but you overcame them, you prove that even there's so many challenges na napaka hirap you did not give up.
+          Im always proud of you, you became a strong women, and for both of us kahit di tayo nagkaka intindihan masyado we still choose each other, and keep choosing each other,
+          i know this month i became a Bf wanting to take you on a date, and I miss you a lot, but i know you're top Priorities, and sorry di ako nakadalaw that time. And after ng iyong
+          exam nakapag date naman tayo kahit papano i really miss you. 
+          </p>
         </div>
       </section>
 
       <section class="leaf">
         <div class="face front page chapter" data-audio="audio/chapter5.mp3">
           <svg class="tulip watermark"><use href="#tulip"/></svg>
-          <span class="month">Month Five</span>
+          <span class="month">Months 11&ndash;12</span>
           <h2>Chapter five</h2>
           <img class="photo" src="images/chapter5.jpg" alt="">
-          <p>Write what happened this month, the challenge you faced, and how you got through it together.</p>
+          <p>Chapter 5- Month 11-12 And for our 1st anniversary, I wrote and made this website in advance kase di ko sure kung makakapag date ba tayo this 1st anniversary
+            i know na wala tayong pera at walang wala na, I really want to take you on a date because you know this is my 1st anniversary with the girl i love the most, so sorry baby kase napaka kulit ko,
+            alam kong nagkaka meron tayo ng tampuhan, and kung ano ano pa. But there will be a time na hopefully wala na masyadong restrictions lalo na sa pera. I know this was supposed to be romantic but 
+            i made this in advance so yah, i really want to see your reaction to this kung di man tayo matuloy sa 16.
+          </p>
         </div>
-        <div class="face back page chapter" data-audio="audio/chapter6.mp3">
-          <svg class="tulip watermark"><use href="#tulip"/></svg>
-          <span class="month">Month Six</span>
-          <h2>Chapter six</h2>
-          <img class="photo" src="images/chapter6.jpg" alt="">
-          <p>Write what happened this month, the challenge you faced, and how you got through it together.</p>
-        </div>
-      </section>
-
-      <section class="leaf">
-        <div class="face front page chapter" data-audio="audio/chapter7.mp3">
-          <svg class="tulip watermark"><use href="#tulip"/></svg>
-          <span class="month">Month Seven</span>
-          <h2>Chapter seven</h2>
-          <img class="photo" src="images/chapter7.jpg" alt="">
-          <p>Write what happened this month, the challenge you faced, and how you got through it together.</p>
-        </div>
-        <div class="face back page chapter" data-audio="audio/chapter8.mp3">
-          <svg class="tulip watermark"><use href="#tulip"/></svg>
-          <span class="month">Month Eight</span>
-          <h2>Chapter eight</h2>
-          <img class="photo" src="images/chapter8.jpg" alt="">
-          <p>Write what happened this month, the challenge you faced, and how you got through it together.</p>
-        </div>
-      </section>
-
-      <section class="leaf">
-        <div class="face front page chapter" data-audio="audio/chapter9.mp3">
-          <svg class="tulip watermark"><use href="#tulip"/></svg>
-          <span class="month">Month Nine</span>
-          <h2>Chapter nine</h2>
-          <img class="photo" src="images/chapter9.jpg" alt="">
-          <p>Write what happened this month, the challenge you faced, and how you got through it together.</p>
-        </div>
-        <div class="face back page chapter" data-audio="audio/chapter10.mp3">
-          <svg class="tulip watermark"><use href="#tulip"/></svg>
-          <span class="month">Month Ten</span>
-          <h2>Chapter ten</h2>
-          <img class="photo" src="images/chapter10.jpg" alt="">
-          <p>Write what happened this month, the challenge you faced, and how you got through it together.</p>
-        </div>
-      </section>
-
-      <section class="leaf">
-        <div class="face front page chapter" data-audio="audio/chapter11.mp3">
-          <svg class="tulip watermark"><use href="#tulip"/></svg>
-          <span class="month">Month Eleven</span>
-          <h2>Chapter eleven</h2>
-          <img class="photo" src="images/chapter11.jpg" alt="">
-          <p>Write what happened this month, the challenge you faced, and how you got through it together.</p>
-        </div>
-        <div class="face back page chapter" data-audio="audio/chapter12.mp3">
-          <svg class="tulip watermark"><use href="#tulip"/></svg>
-          <span class="month">Month Twelve</span>
-          <h2>Chapter twelve</h2>
-          <img class="photo" src="images/chapter12.jpg" alt="">
-          <p>Write what happened this month, the challenge you faced, and how you got through it together.</p>
-        </div>
-      </section>
-
-      <section class="leaf">
-        <div class="face front page video-page">
+        <div class="face back page video-page">
           <h2>For you</h2>
           <!-- Replace video/anniversary.mp4 with your Autograph export -->
           <video controls playsinline preload="metadata" src="video/anniversary.mp4"></video>
         </div>
+      </section>
+
+      <section class="leaf">
+        <div class="face front page letter-page" data-audio="audio/letter.mp3">
+          <svg class="tulip watermark"><use href="#tulip"/></svg>
+          <h2>A letter for you</h2>
+          <p> This part is something na di ko masabi sa ibang chapters, but this letter is i want you to know that i always love you with the very bottom of my heart,
+          nung tinanong kita kung ano pakiramdam ng may OA at emotional na bf AHHAH sorry naman baby bare with me yah?.
+          </p>
+        </div>
         <div class="face back page" data-audio="audio/final.mp3">
           <h2>Where we are now</h2>
-          <p>One year in. Write what you want her to carry with her into year two.</p>
+          <p>One year in And more to go, I hope you like this a very little gift of mine, i really want to tell you more and but that would be in a very different time hehe.
+            I love you so much baby ko! ang aking care bear, melie, at syempre ang aking future asawa. Thank you sa lahat ng pag pag alaga at pag intindi. Your a strong women my cute baby girl okie?
+            you're my one and only baby. That's all muah! forehead kiss! from your's trully Jasper your baby muah! oh right kung di mo pa nahahanap i have a hidden letter around this whole page so find it baby 
+            pero kung nakita muna.... edi kiss nalang kita HAHAHHA.
+          </p>
         </div>
       </section>
 
       <section class="leaf">
-        <div class="face front page" data-audio="audio/closing.mp3">
+        <div class="face front page closing-page" data-audio="audio/closing.mp3">
           <svg class="tulip t1"><use href="#tulip"/></svg>
           <svg class="tulip t2"><use href="#tulip"/></svg>
           <svg class="tulip t3"><use href="#tulip"/></svg>
           <h2>Here's to year two</h2>
           <p>And every year after. I love you.</p>
         </div>
-        <div class="face back cover">
-          <svg class="tulip t2"><use href="#tulip"/></svg>
-          <p class="script">Forever yours, jm</p>
-        </div>
+        <div class="face back cover art" aria-label="Back cover"></div>
       </section>
 
     </div>
@@ -395,6 +377,41 @@
   <div class="petals front" id="petals-front" aria-hidden="true"></div>
   <div class="fireflies" id="fireflies" aria-hidden="true"></div>
 
+  <canvas id="gl" aria-hidden="true"></canvas>
+
+  <!-- ===== Interactive extras (fx.js) ===== -->
+  <div class="fx-tip" id="fx-tip" role="tooltip" aria-hidden="true"></div>
+  <div class="fx-sky" id="fx-sky" aria-hidden="true"></div>
+
+  <!-- Tulip note: change the words here if you ever want to -->
+  <aside class="fx-pop fx-note" id="fx-note" role="dialog" aria-label="A note from the tulips" hidden>
+    <svg class="fx-note-tulip" aria-hidden="true"><use href="#tulip"/></svg>
+    <p>Remember the 1st time I gave you a flower, and when you graduate a flower bouquet</p>
+    <button class="fx-x" type="button" aria-label="Close note">&times;</button>
+  </aside>
+
+  <!-- Envelope letter: put your own words in here -->
+  <div class="fx-backdrop" id="fx-backdrop" hidden></div>
+  <article class="fx-letter" id="fx-letter" role="dialog" aria-modal="true" aria-labelledby="fx-letter-title" hidden>
+    <div class="fx-paper">
+      <svg class="fx-paper-tulip" aria-hidden="true"><use href="#tulip"/></svg>
+      <h2 id="fx-letter-title">To my Baby</h2>
+      <p> Yey! hey there you beautiful girl found this, galing ah, i just want to tell baby na nang gigigil ako sayo ang cute cute! mo kase eh, but to be serious.
+        This year i watched you grow to who you are now, I see you as a strong Girlfriend and very responsible ate, sa mga kapatid mo, at magulang kila tito at tita,
+        may this message empower you more, always remember na even if im not always by your side i will always be there, right beside you, hugging you and supporting you,
+        may our love reach until the end of time, towards the future taking on what ever challenges we face, always remember god is on our side.
+        I love you very much! my future wife and future teacher goodluck to both of us and sa ating future careers. muah!
+      </p>
+      <p class="fx-sign">Forever yours, jm</p>
+    </div>
+    <button class="fx-x" type="button" aria-label="Close letter">&times;</button>
+  </article>
+
+  <script src="vendor/gsap.min.js"></script>
   <script src="script.js"></script>
+  <script src="fx.js"></script>
+  <!-- 3D petals, fireflies and hearts (Three.js, bundled inside scene.js). If it can't run, the flat 2D petals stay. -->
+  <script src="scene-config.js"></script>
+  <script src="scene.js"></script>
 </body>
 </html>
