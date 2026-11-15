@@ -723,3 +723,23 @@ body {
 .lite .fp:nth-child(even) { display: none; }
 .lite .prop svg, .lite .branch, .lite .mat-wrap { filter: none; }
 .lite .light { animation: none; }
+
+
+/* ---------- 3D layer (Three.js) ----------
+   One transparent canvas over the table: real 3D petals and fireflies drift
+   at different depths. scene.js adds .gl-on once it is running, which removes
+   the flat 2D petals so the two never double up. */
+#gl {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 4;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 1.6s ease;
+}
+body.gl-on #gl { opacity: 1; }
+body.gl-on .petals,
+body.gl-on .fireflies { display: none; }
+@media (prefers-reduced-motion: reduce) { #gl { display: none; } }
